@@ -1,0 +1,50 @@
+<html>
+<head>
+  <title>Show User Location on Map using OpenStreetMap</title>
+  <script src="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.css"/>
+  <style>
+    #mapid {
+      height: 500px;
+    }
+  </style>
+</head>
+<body>
+</script>
+
+  <div id="mapid"></div>
+  <script>
+    var mymap = L.map('mapid').setView([0, 0], 13);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+        '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+      maxZoom: 18,
+    }).addTo(mymap);
+    
+    function getLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+      } else {
+        alert("Geolocation is not supported by this browser.");
+      }
+    }
+
+    function showPosition(position) {
+      var latitude = position.coords.latitude;
+      var longitude = position.coords.longitude;
+      console.log("Latitude: " + latitude + ", Longitude: " + longitude);
+      mymap.setView([latitude, longitude], 13);
+      L.marker([latitude, longitude]).addTo(mymap);
+    }
+  </script>
+  <button onclick="getLocation()">Get Location</button>
+  <button onclick="vibrate()">SOS</button>
+
+<script>
+function vibrate() {
+navigator.vibrate([100,30,100,30,100,30,200,30,200,30,200,30,100,30,100,30,100]); // Vibrate for 1 second (1000 milliseconds)
+
+}
+</script>
+</body>
+</html>
